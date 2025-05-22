@@ -34,6 +34,19 @@ struct ImageBase64ConvertView: View {
                                 }
                         }
                     }
+                    .onDrop(of: [.fileURL], isTargeted: nil) { providers in
+                        if let item = providers.first {
+                            _ = item.loadObject(ofClass: URL.self) { url, _ in
+                                if let url = url, let nsImage = NSImage(contentsOf: url) {
+                                    DispatchQueue.main.async {
+                                        self.image = nsImage
+                                    }
+                                }
+                            }
+                            return true
+                        }
+                        return false
+                    }
 
                     Button("下載圖片") {
                         saveImage()
@@ -76,14 +89,58 @@ struct ImageBase64ConvertView: View {
     }
 
     private func processInput() {
-        // TODO: 實作轉換邏輯
+        // 嘗試從 Base64 還原為圖片
+        if let data = Data(base64Encoded: outputText),
+           let nsImage = NSImage(data: data),
+           nsImage.size.width > 0, nsImage.size.height > 0 {
+            self.image = nsImage
+            return
+        }
+
+        // 否則嘗試將圖片轉為 Base64
+        guard let image = image,
+              let tiffData = image.tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData),
+              let pngData = bitmap.representation(using: .png, properties: [:]) else {
+            self.outputText = "⚠️ 尚未載入圖片，或轉換 PNG 時失敗。"
+            return
+        }
+
+        let base64 = pngData.base64EncodedString()
+        self.outputText = base64
     }
 
     private func importImage() {
-        // TODO: 實作圖片選擇邏輯
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.png, .jpeg, .heic]
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.begin { response in
+            if response == .OK, let url = panel.url {
+                if let nsImage = NSImage(contentsOf: url) {
+                    self.image = nsImage
+                }
+            }
+        }
     }
 
     private func saveImage() {
-        // TODO: 實作圖片儲存邏輯
+        guard let image = image,
+              let tiffData = image.tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData),
+              let pngData = bitmap.representation(using: .png, properties: [:]) else {
+            return
+        }
+
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.png]
+        panel.nameFieldStringValue = "export.png"
+        panel.canCreateDirectories = true
+
+        panel.begin { response in
+            if response == .OK, let url = panel.url {
+                try? pngData.write(to: url)
+            }
+        }
     }
 }
