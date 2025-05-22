@@ -8,14 +8,47 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTool: ToolDefinitions.Tool? = nil
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationSplitView {
+            ToolSidebarView(selectedTool: $selectedTool)
+        } detail: {
+            if let tool = selectedTool {
+                switch tool {
+                case .convertJSON:
+                    JSONConvertView()
+                case .universalConvert:
+                    UniversalConvertView()
+                case .convertNDJSON:
+                    NDJSONConvertView()
+                case .convertYAML:
+                    YAMLConvertView()
+                case .convertXML:
+                    XMLConvertView()
+                case .imageBase64:
+                    ImageBase64ConvertView()
+                default:
+                    Text("這裡是 \(tool.rawValue) 功能畫面")
+                }
+            } else {
+                VStack(spacing: 16) {
+                    Image(systemName: "wand.and.stars")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.accentColor)
+
+                    Text("歡迎使用 NekoToolKit")
+                        .font(.title2)
+                        .bold()
+
+                    Text("請從左側選擇一個工具開始使用。")
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
-        .padding()
     }
 }
 
