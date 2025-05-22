@@ -28,6 +28,10 @@ struct ContentView: View {
                     XMLConvertView()
                 case .imageBase64:
                     ImageBase64ConvertView()
+                case .base64:
+                    Base64ConvertView()
+                case .urlEncode:
+                    URLEncodeDecodeView()
                 default:
                     Text("這裡是 \(tool.rawValue) 功能畫面")
                 }
