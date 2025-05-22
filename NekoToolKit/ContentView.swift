@@ -32,6 +32,22 @@ struct ContentView: View {
                     Base64ConvertView()
                 case .urlEncode:
                     URLEncodeDecodeView()
+                case .zhConvert:
+                    ChineseConvertView()
+                case .stringSplit:
+                    StringSplitView()
+                case .stringClean:
+                    TextCleanView()
+                case .deduplicate:
+                    DeduplicateLinesView()
+                case .numberList:
+                    NumberListGeneratorView()
+                case .stripNewline:
+                    SingleLineConvertView()
+                case .textStats:
+                    TextStatisticsView()
+                case .textEncodingConvert:
+                    TextEncodingConvertView()
                 default:
                     Text("這裡是 \(tool.rawValue) 功能畫面")
                 }
