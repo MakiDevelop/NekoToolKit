@@ -58,8 +58,36 @@ struct ContentView: View {
                     PasswordGeneratorView()
                 case .qrcodeGen:
                     QRCodeGeneratorView()
-                default:
-                    Text("這裡是 \(tool.rawValue) 功能畫面")
+                case .jsonLint:
+                    JSONLintView()
+                case .csvLint:
+                    CSVLintView()
+                case .tsvLint:
+                    TSVLintView()
+                case .ndjsonLint:
+                    NDJSONLintView()
+                case .yamlLint:
+                    YAMLLintView()
+                case .xmlLint:
+                    XMLLintView()
+                case .jwtDecoder:
+                    JWTDecoderView()
+                case .jsMinify:
+                    JavaScriptMinifyView()
+                case .cssMinify:
+                    CSSMinifyView()
+                case .httpHeader:
+                    HTTPHeaderInspectorView()
+                case .textDiff:
+                    TextDiffView()
+                case .uuidGen:
+                    UUIDGeneratorView()
+                case .imageResize:
+                    ImageResizeView()
+                case .imageConvert:
+                    ImageFormatConvertView()
+                case .imageJoin:
+                    ImageJoinView()
                 }
             } else {
                 VStack(spacing: 16) {

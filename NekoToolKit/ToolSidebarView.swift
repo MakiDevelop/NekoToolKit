@@ -44,6 +44,9 @@ enum ToolDefinitions {
         case hashGen = "雜湊生成器（MD5/SHA1/SHA256）"
         case passwordGen = "密碼生成器"
         case qrcodeGen = "QRCode 生成器"
+        case imageResize = "圖片尺寸調整工具"
+        case imageConvert = "圖片格式轉換工具"
+        case imageJoin = "圖片合併工具"
 
         // 程式開發小工具
         case csvLint = "CSV Lint"
@@ -57,6 +60,7 @@ enum ToolDefinitions {
         case cssMinify = "CSS 壓縮／展開"
         case httpHeader = "HTTP Header 檢查工具"
         case textDiff = "文字差異比對工具（Diff 工具）"
+        case uuidGen = "UUID 生成器"
 
         var id: String { self.rawValue }
 
@@ -69,11 +73,14 @@ enum ToolDefinitions {
                 return .format
             case .zhConvert, .stringSplit, .stringClean, .deduplicate, .numberList, .stripNewline, .textStats, .textEncodingConvert:
                 return .text
-            case .unitConvert, .timestampConvert, .hashGen, .passwordGen, .qrcodeGen:
+            case .unitConvert, .timestampConvert, .hashGen, .passwordGen, .qrcodeGen,
+                 .imageResize, .imageConvert, .imageJoin:
                 return .convert
             case .csvLint, .tsvLint, .jsonLint, .ndjsonLint, .yamlLint, .xmlLint,
                  .jwtDecoder, .jsMinify, .cssMinify, .httpHeader, .textDiff:
                 return .dev
+            case .uuidGen:
+                return .convert
             }
         }
     }
