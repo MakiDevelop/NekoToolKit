@@ -48,6 +48,16 @@ struct ContentView: View {
                     TextStatisticsView()
                 case .textEncodingConvert:
                     TextEncodingConvertView()
+                case .unitConvert:
+                    UnitConverterView()
+                case .timestampConvert:
+                    TimestampConvertView()
+                case .hashGen:
+                    HashGeneratorView()
+                case .passwordGen:
+                    PasswordGeneratorView()
+                case .qrcodeGen:
+                    QRCodeGeneratorView()
                 default:
                     Text("這裡是 \(tool.rawValue) 功能畫面")
                 }
